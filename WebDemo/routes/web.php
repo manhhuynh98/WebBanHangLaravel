@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/home', 'WebController@Home');
+Route::get('/about', 'WebController@about');
+
+
+
+Route::group(['prefix' => '/admin'], function () {
+
+    Route::group(['prefix' => '/category'], function () {
+        Route::get('/list', 'CategoryController@getCategory');
+    });
 });
