@@ -8,9 +8,10 @@ use App\Product;
 class Category extends Model
 {
     //
-    protected $table = 'category';
+    protected $table = 'categories';
+    protected $guarded = [];
 
     public function product(){
-        return $this->belongsTo('Product','categoryid');
+        return $this->hasMany('Product','idcategory','id');
     }
 }
