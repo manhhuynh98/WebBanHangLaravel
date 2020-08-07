@@ -3,20 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Category;
-use App\Comment;
 
 class Product extends Model
 {
     //
-    protected $table = 'products';
+    protected $table = 'Products';
 
     public function category(){
-        return $this->belongsTo('Category','idcategory','id');
+        return $this->belongsTo('App\Category','idcategory','id');
     }
 
     public function comment(){
-        return $this->hasMany('Comment');
+        return $this->hasMany('App\Comment','idproduct','id');
     }
 
 

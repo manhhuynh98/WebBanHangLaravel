@@ -38,6 +38,6 @@ class User extends Authenticatable
     ];
 
     public function comment(){
-        return $this->hasMany('Comment','iduser','id');
+        return $this->hasMany('App\Comment','iduser','id');
     }
 }

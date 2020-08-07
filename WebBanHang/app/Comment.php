@@ -3,19 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\User;
-use App\Product;
 
 class Comment extends Model
 {
     //
-    protected $table = 'comment';
+    protected $table = 'Comment';
 
     public function user(){
-        return $this->belongsTo('User','iduser','id');
+        return $this->belongsTo('App\User','iduser','id');
     }
 
     public function product(){
-        return $this->belongsTo('Product','idproduct','id');
+        return $this->belongsTo('App\Product','idproduct','id');
     }
 }

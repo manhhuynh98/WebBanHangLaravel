@@ -41,11 +41,36 @@ Danh sách sản phẩm
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-inline">Bình luận</label>
-                    <textarea class="form-control col-8" rows="3"></textarea>
+                <div class="well">
+                    <h4>Viết bình luận ...<span class="glyphicon glyphicon-pencil"></span></h4>
+                    <form action="" method="POST">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="form-group">
+                            <textarea class="form-control" name="NoiDung" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Gửi</button>
+                    </form>
                 </div>
-                <button class="btn btn_3">Bình Luận</button>
+
+            <hr>
+
+            <!-- Posted Comments -->
+
+            <!-- Comment -->
+            @foreach ($product->comment as $cm)
+                <div class="media">
+                    <a class="pull-left" href="#">
+                        <img class="media-object" src="http://placehold.it/64x64" alt="">
+                    </a>
+                    <div class="media-body">
+                            <h4 class="media-heading">{{ $cm->user['name'] }}
+                            <small>{{ $cm->created_at }}</small>
+                        </h4>
+                        {{ $cm->content }}
+                    </div>
+                </div>
+                <br>
+            @endforeach
             </div>
         </div>
     </div>
