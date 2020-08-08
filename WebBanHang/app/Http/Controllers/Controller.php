@@ -27,7 +27,10 @@ class Controller extends BaseController
     }
 
     public function checkuser(){
-        return view()->share('infor',Auth::user());
+        if (Auth::check()) {
+            # code...
+            return view()->share('infor',Auth::user());
+        }
     }
 
     public function getHome(){

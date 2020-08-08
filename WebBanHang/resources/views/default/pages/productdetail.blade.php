@@ -42,14 +42,16 @@ Danh sách sản phẩm
                     </div>
                 </div>
                 <div class="well">
+                    @if (isset($infor))
                     <h4>Viết bình luận ...<span class="glyphicon glyphicon-pencil"></span></h4>
-                    <form action="" method="POST">
+                    <form action="post-comment/{{ $product->id }}/{{ $infor->id }}" method="POST">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group">
-                            <textarea class="form-control" name="NoiDung" rows="3"></textarea>
+                            <textarea class="form-control" name="content" rows="3"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Gửi</button>
                     </form>
+                    @endif
                 </div>
 
             <hr>

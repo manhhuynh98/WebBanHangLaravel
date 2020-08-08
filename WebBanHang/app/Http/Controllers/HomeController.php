@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -16,6 +17,7 @@ class HomeController extends Controller
     {
         $category = Category::all();
         return view()->share('category',$category);
+        $this->middleware('auth');
     }
 
     public function getHome(){
@@ -53,6 +55,37 @@ class HomeController extends Controller
     public function getLogout(){
         Auth::logout();
         return redirect('home/');
+    }
+
+    public function postEditProfile(Request $request){
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        if ($request->passwordOld!=""&&$request->passwordNew!=""&&$request->passwordAgain!="") {
+            if (Hash::check($request->passwordOld, Auth::user()->password)) {
+                $this->validate($request,[
+                    'passwordNew'      => 'required|min:6|max:32',
+                    'passwordAgain'    => 'same:passwordNew',
+                    ]);
+                    $user->password = bcrypt($request->passwordNew);
+                    $user->save();
+                    return redirect('profile')->with('thongbao','Đổi mật khẩu thành công thành công');
+                }
+        }else{
+            $this->validate($request,[
+                'name'          => 'required|min:3|max:32',
+                'email'         => 'required|min:3|max:32',
+                'address'         => 'required|min:3|max:32',
+                'phone'         => 'required|min:3|max:32',
+            ]);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->address = $request->address;
+            $user->phone = $request->phone;
+            $user->sex = $request->sex;
+            $user->save();
+            return redirect('profile')->with('thongbao','sửa thành công');
+        }
+
     }
 
     public function getRegister(){
@@ -102,11 +135,39 @@ class HomeController extends Controller
         return view('default.pages.productdetail',['product'=>$product]);
     }
 
+    public function postComment($id,$iduser,Request $request){
+        $this->validate($request,[
+            'content' => 'required',
+        ]);
+
+        $comment = new Comment;
+        $comment->idproduct = $id;
+        $comment->iduser= $iduser;
+        $comment->content = $request->content;
+        $comment->save();
+        return redirect('product-detail/'.$id);
+    }
+
     public function getAbout(){
         return view('default.pages.about');
     }
 
+    public function getProfile(){
+        //dd(Auth::user()->id);
+        return view('default.pages.profile');
+    }
+
     public function getContast(){
         return view('default.pages.contast');
+    }
+
+    function test(Request $request){
+        $user = Auth::user();
+        if(Hash::check($request->passwordOld, $user->password)){
+            dd(1);
+        }else{
+            dd(0);
+        }
+        return redirect()->back();
     }
 }

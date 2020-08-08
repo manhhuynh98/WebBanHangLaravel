@@ -22,6 +22,16 @@
             <link rel="stylesheet" href="assets/css/slick.css">
             <link rel="stylesheet" href="assets/css/nice-select.css">
             <link rel="stylesheet" href="assets/css/style.css">
+            <style>
+                a{
+                    color: black;
+                }
+                a:hover{
+                    color: blueviolet;
+                }
+            </style>
+            @yield('css')
+
    </head>
 
    <body>
@@ -84,4 +94,6 @@
         <script src="./assets/js/main.js"></script>
 
     </body>
+
+    @yield('script')
 </html>

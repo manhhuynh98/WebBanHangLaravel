@@ -34,8 +34,13 @@ Route::post('/register', 'HomeController@postRegister');
 
 Route::get('/product-list', 'HomeController@getProductList');
 Route::get('/product-detail/{id}', 'HomeController@getProductDetail');
+Route::post('/post-comment/{id}/{iduser}', 'HomeController@postComment');
 Route::get('/about', 'HomeController@getAbout');
+Route::get('/profile', 'HomeController@getProfile');
 Route::get('/contast', 'HomeController@getContast');
+Route::post('/profile', 'HomeController@postEditProfile');
+Route::post('/test', 'HomeController@test');
+
 
 Route::group(['prefix' => 'admin','middleware'=>'adminlogin'], function () {
     Route::get('home', 'Controller@getHome');

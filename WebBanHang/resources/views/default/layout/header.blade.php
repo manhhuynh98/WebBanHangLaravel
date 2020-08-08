@@ -83,8 +83,10 @@
                                                 <i class="fa fa-user fa-fw" style="padding: 0px; color: #4e4e4e;"></i><i class="fa fa-caret-down" style="padding: 0px; color: #4e4e4e;"></i>
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><i class="fa fa-user"><a href="admin/home" style="color: #4e4e4e">{{ $infor->name }}</a></i></li>
-                                                {{-- <li><i class="fa ti-settings"><a href="" style="color: #4e4e4e">Setting</a></i></li> --}}
+                                                <li><i class="fa fa-user"><a href="profile" style="color: #4e4e4e">{{ $infor->name }}</a></i></li>
+                                                @if ($infor->status == 1)
+                                                <li><i class="fa ti-settings"><a href="admin/home" style="color: #4e4e4e">Admin manager</a></i></li>
+                                                @endif
                                                 <li><i class="fa fa-sign-out-alt"><a href="logout" style="color: #4e4e4e">Sign-out</a></i></li>
                                             </ul>
                                         </div>
