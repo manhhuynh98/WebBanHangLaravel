@@ -46,7 +46,7 @@ Danh sách sản phẩm
                 </div>
             </div>
             <div class="col-md-8">
-                <div class="product_list">
+                <div class="product_list" id="resultsearch">
                     <div class="row">
                         @foreach ($product as $item)
                             <div class="col-lg-6 col-sm-6">
@@ -67,4 +67,24 @@ Danh sách sản phẩm
     </div>
 </section>
 <!-- product list part end-->
+@endsection
+
+@section('script')
+<script>
+    $('#inputsearch').keyup(function () {
+        var key = $('#inputsearch').val();
+        $.ajax({
+            type: "GET",
+            url: "searchlist/"+key,
+            success: function (response) {
+                $('#resultsearch').empty();
+                $('#resultsearch').html(response);
+            },
+            error: function() {
+                window.location.reload();
+            }
+
+        });
+    });
+</script>
 @endsection

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+
     //
     protected $table = 'Products';
 
@@ -16,6 +17,5 @@ class Product extends Model
     public function comment(){
         return $this->hasMany('App\Comment','idproduct','id');
     }
-
 
 }

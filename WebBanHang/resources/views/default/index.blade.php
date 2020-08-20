@@ -22,6 +22,8 @@
             <link rel="stylesheet" href="assets/css/slick.css">
             <link rel="stylesheet" href="assets/css/nice-select.css">
             <link rel="stylesheet" href="assets/css/style.css">
+            <link rel="stylesheet" href="assets/css/shoppingcart.css">
+
             <style>
                 a{
                     color: black;
@@ -93,7 +95,14 @@
         <script src="./assets/js/plugins.js"></script>
         <script src="./assets/js/main.js"></script>
 
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+        <!-- CSS -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+        <!-- Default theme -->
+
     </body>
 
     @yield('script')
+
+    @include('default.layout.cart')
 </html>

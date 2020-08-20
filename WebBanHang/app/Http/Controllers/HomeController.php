@@ -25,69 +25,6 @@ class HomeController extends Controller
         return view('default.pages.home',['product'=>$product]);
     }
 
-    public function getLogin(){
-        return view('default.pages.login');
-    }
-
-    public function postLogin(Request $request){
-        $this->validate($request,[
-            'email' => 'required|min:4|max:32',
-            'password' => 'required|min:4|max:32'
-        ],[
-            'email.required' => 'Bạn chưa nhập tên đăng nhập',
-            'email.min' => 'Tên đăng nhập có ít nhât 3 ký tự',
-            'email.max' => 'Tên đăng nhập có nhiều nhất 32 ký tự',
-            'password.required' => 'Bạn chưa nhập mật khẩu',
-            'password.min' => 'Mật khẩu có ít nhât 3 ký tự',
-            'password.max' => 'Mật khẩu có nhiều nhất 32 ký tự',
-        ]);
-
-        $remember = $request->has('remember') ? true : false;
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
-            return redirect('/home');
-        }
-        else{
-            return redirect('/login')->with('loi','Đăng nhập không thành công');
-        }
-
-    }
-
-    public function getLogout(){
-        Auth::logout();
-        return redirect('home/');
-    }
-
-    public function postEditProfile(Request $request){
-        $id = Auth::user()->id;
-        $user = User::find($id);
-        if ($request->passwordOld!=""&&$request->passwordNew!=""&&$request->passwordAgain!="") {
-            if (Hash::check($request->passwordOld, Auth::user()->password)) {
-                $this->validate($request,[
-                    'passwordNew'      => 'required|min:6|max:32',
-                    'passwordAgain'    => 'same:passwordNew',
-                    ]);
-                    $user->password = bcrypt($request->passwordNew);
-                    $user->save();
-                    return redirect('profile')->with('thongbao','Đổi mật khẩu thành công thành công');
-                }
-        }else{
-            $this->validate($request,[
-                'name'          => 'required|min:3|max:32',
-                'email'         => 'required|min:3|max:32',
-                'address'         => 'required|min:3|max:32',
-                'phone'         => 'required|min:3|max:32',
-            ]);
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->address = $request->address;
-            $user->phone = $request->phone;
-            $user->sex = $request->sex;
-            $user->save();
-            return redirect('profile')->with('thongbao','sửa thành công');
-        }
-
-    }
-
     public function getRegister(){
         return view('default.pages.register');
     }
@@ -125,6 +62,39 @@ class HomeController extends Controller
         return redirect('/login')->with('thongbao','Đăng ký thành công');
     }
 
+    public function getLogin(){
+        return view('default.pages.login');
+    }
+
+    public function postLogin(Request $request){
+        $this->validate($request,[
+            'email' => 'required|min:4|max:32',
+            'password' => 'required|min:4|max:32'
+        ],[
+            'email.required' => 'Bạn chưa nhập tên đăng nhập',
+            'email.min' => 'Tên đăng nhập có ít nhât 3 ký tự',
+            'email.max' => 'Tên đăng nhập có nhiều nhất 32 ký tự',
+            'password.required' => 'Bạn chưa nhập mật khẩu',
+            'password.min' => 'Mật khẩu có ít nhât 3 ký tự',
+            'password.max' => 'Mật khẩu có nhiều nhất 32 ký tự',
+        ]);
+
+        $remember = $request->has('remember') ? true : false;
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
+            return redirect('/home');
+        }
+        else{
+            return redirect('/login')->with('loi','Đăng nhập không thành công');
+        }
+
+    }
+
+    public function getLogout(){
+        Auth::logout();
+        return redirect('home/');
+    }
+
+
     public function getProductList(){
         $product = Product::all();
         return view('default.pages.product',['product'=>$product]);
@@ -148,18 +118,69 @@ class HomeController extends Controller
         return redirect('product-detail/'.$id);
     }
 
-    public function getAbout(){
-        return view('default.pages.about');
-    }
-
     public function getProfile(){
         //dd(Auth::user()->id);
         return view('default.pages.profile');
     }
 
+    public function postEditProfile(Request $request){
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        if ($request->passwordOld!=""&&$request->passwordNew!=""&&$request->passwordAgain!="") {
+            if (Hash::check($request->passwordOld, Auth::user()->password)) {
+                $this->validate($request,[
+                    'passwordNew'      => 'required|min:6|max:32',
+                    'passwordAgain'    => 'same:passwordNew',
+                    ]);
+                    $user->password = bcrypt($request->passwordNew);
+                    $user->save();
+                    return redirect('profile')->with('thongbao','Đổi mật khẩu thành công thành công');
+                }
+        }else{
+            $this->validate($request,[
+                'name'          => 'required|min:3|max:32',
+                'email'         => 'required|min:3|max:32',
+                'address'         => 'required|min:3|max:32',
+                'phone'         => 'required|min:3|max:32',
+            ]);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->address = $request->address;
+            $user->phone = $request->phone;
+            $user->sex = $request->sex;
+            $user->save();
+            return redirect('profile')->with('thongbao','sửa thành công');
+        }
+
+    }
+
+    public function getCart(){
+        return view('default.pages.cart');
+    }
+
+    public function getAbout(){
+        return view('default.pages.about');
+    }
+
     public function getContast(){
         return view('default.pages.contast');
     }
+
+    public function postSearch($key){
+        $product = Product::where('name','like',"%$key%")->get();
+        if(isset($product)){
+            return view('default.pages.search',compact('product'));
+        }
+
+    }
+    public function postSearchList($key){
+        $product = Product::where('name','like',"%$key%")->get();
+        if(isset($product)){
+            return view('default.pages.searchlist',compact('product'));
+        }
+    }
+
+
 
     function test(Request $request){
         $user = Auth::user();

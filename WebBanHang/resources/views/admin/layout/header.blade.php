@@ -18,28 +18,39 @@
                                     <ul id="navigation">
                                         <li><a href="admin/home">Trang chủ</a></li>
                                         <li><a href="javascript:void(0)">Thể loại</a>
-                                            <ul class="submenu">
-                                                <li><a href="admin/category/list">Danh sách</a></li>
-                                                <li><a href="admin/category/add">Thêm</a></li>
-                                            </ul>
+                                            @can('view', App\Category::class)
+                                                <ul class="submenu">
+                                                    <li><a href="admin/category/list">Danh sách</a></li>
+                                                    @can('create', App\Category::class)
+                                                        <li><a href="admin/category/add">Thêm</a></li>
+                                                    @endcan
+                                                </ul>
+                                            @endcan
                                         </li>
-                                        <li><a href="product-list">Sản phẩm</a>
-                                            <ul class="submenu">
-                                                <li><a href="admin/product/list">Danh sách</a></li>
-                                                <li><a href="admin/product/add">Thêm</a></li>
-                                            </ul>
+                                        <li><a href="javascript:">Sản phẩm</a>
+                                            @can('view', App\Product::class)
+                                                <ul class="submenu">
+                                                    <li><a href="admin/product/list">Danh sách</a></li>
+                                                    @can('create', App\Product::class)
+                                                        <li><a href="admin/product/add">Thêm</a></li>
+                                                    @endcan
+                                                </ul>
+                                            @endcan
                                         </li>
-                                        <li><a href="about">Người dùng</a>
-                                            <ul class="submenu">
-                                                <li><a href="admin/user/list">Danh sách</a></li>
-                                                <li><a href="admin/user/add">Thêm</a></li>
-                                            </ul>
+                                        <li><a href="javascript:">Người dùng</a>
+                                            @can('view', App\User::class)
+                                                <ul class="submenu">
+                                                    <li><a href="admin/user/list">Danh sách</a></li>
+                                                    <li><a href="admin/user/add">Thêm</a></li>
+                                                </ul>
+                                            @endcan
                                         </li>
-                                        <li><a href="contast">Bình luận</a>
-                                            <ul class="submenu">
-                                                <li><a href="admin/comment/list">Danh sách</a></li>
-                                                <li><a href="admin/comment/add">Thêm</a></li>
-                                            </ul>
+                                        <li><a href="javascript:">Bình luận</a>
+                                            @can('view', App\User::class)
+                                                <ul class="submenu">
+                                                    <li><a href="admin/comment/list">Danh sách</a></li>
+                                                </ul>
+                                            @endcan
                                         </li>
                                     </ul>
                                 </nav>

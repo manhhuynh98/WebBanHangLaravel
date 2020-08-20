@@ -41,6 +41,15 @@ Route::get('/contast', 'HomeController@getContast');
 Route::post('/profile', 'HomeController@postEditProfile');
 Route::post('/test', 'HomeController@test');
 
+Route::get('/search/{key}', 'HomeController@postSearch');
+Route::get('/searchlist/{key}', 'HomeController@postSearchList');
+
+Route::get('/cart', 'CartController@getCart');
+Route::get('/add-cart/{id}', 'CartController@addCart');
+Route::get('/delete-cart/{id}', 'CartController@deleteItemCart');
+Route::get('/delete-list-cart/{id}', 'CartController@deleteListItemCart');
+Route::get('/update-list-cart/{id}/{quanty}', 'CartController@updateListItemCart');
+
 
 Route::group(['prefix' => 'admin','middleware'=>'adminlogin'], function () {
     Route::get('home', 'Controller@getHome');

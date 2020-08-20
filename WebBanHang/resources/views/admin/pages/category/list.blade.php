@@ -14,12 +14,15 @@ Admin Danh sách thể loại
         <table class="table">
             <thead class="thead-dark">
                 <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Tên</th>
-                  <th scope="col">Tên không dấu</th>
-                  <th scope="col">Hình ảnh</th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Tên không dấu</th>
+                    <th scope="col">Hình ảnh</th>
+                    <th scope="col"></th>
+
+                    @cannot('delete', App\Category::class)
+                        <th scope="col"></th>
+                    @endcannot
                 </tr>
                 </thead>
             <tbody>
@@ -29,8 +32,10 @@ Admin Danh sách thể loại
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->unsigned_name }}</td>
                         <td>{{ $item->image }}</td>
-                        <td><a href="admin/category/edit/{{ $item->id }}">Sửa</a></td>
-                        <td><a href="admin/category/delete/{{ $item->id }}">Xóa</a></td>
+                        <td><a href="admin/category/edit/{{ $item->id }}"><span class="fas fa-edit"></span></a></td>
+                        @can('delete', App\Category::class)
+                            <td><a href="admin/category/delete/{{ $item->id }}"><span class="fas fa-trash"></span></a></td>
+                        @endcan
                     </tr>
                 @endforeach
         </table>

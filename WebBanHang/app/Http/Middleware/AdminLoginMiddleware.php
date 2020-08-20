@@ -17,7 +17,7 @@ class AdminLoginMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            if (Auth::user()->status == 1) {
+            if (Auth::user()->status != 0) {
                 return $next($request);
             }
             else{

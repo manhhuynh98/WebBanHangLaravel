@@ -11,6 +11,7 @@ class CategoryController extends Controller
     //
 
     public function getList(){
+
         $category = Category::all();
         return view('admin.pages.category.list');
     }

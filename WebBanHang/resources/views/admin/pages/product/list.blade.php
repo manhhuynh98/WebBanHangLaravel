@@ -41,8 +41,10 @@ Admin Danh sách sản phẩm
                         <td>{{ $item->sale }}</td>
                         <td>{{ $item->cost }}</td>
                         <td>{{ $item->image }}</td>
-                        <td><a href="admin/product/edit/{{ $item->id }}">Sửa</a></td>
-                        <td><a href="admin/product/delete/{{ $item->id }}">Xóa</a></td>
+                        <td><a href="admin/product/edit/{{ $item->id }}"><span class="fas fa-edit"></span></a></td>
+                        @can('delete', App\Product::class)
+                            <td><a href="admin/product/delete/{{ $item->id }}"><span class="fas fa-trash"></span></a></td>
+                        @endcan
                     </tr>
                 @endforeach
         </table>
