@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'google' => [
+        'client_id' => '219805380530-26ua41ov802tfnac0ufts31s8voffl5k.apps.googleusercontent.com',
+        'client_secret' => 'wDtcM4YLT73QakUfqkXVAJ4X',
+        'redirect' => 'http://localhost/WebBanHangLaravel/WebBanDoAn/public/loginwithgoogle/callback',
+    ],
+
 ];
