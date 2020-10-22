@@ -27,7 +27,8 @@ class ProductController extends Controller
         $product->name = $_POST['name'];
         $product->image = $_POST['image'];
         $product->content = $_POST['content'];
-        $product->price = $_POST['price'];
+        $product->sale_price = $_POST['sprice'];
+        $product->purchase_price = $_POST['pprice'];
         $product->idCategory = $_POST['idCategory'];
 
         // $idCategory = $_POST['idCategory'];
@@ -43,7 +44,8 @@ class ProductController extends Controller
         $product->name = $_POST['name'];
         $product->image = $_POST['image'];
         $product->content = $_POST['content'];
-        $product->price = $_POST['price'];
+        $product->sale_price = $_POST['sprice'];
+        $product->purchase_price = $_POST['pprice'];
         $product->idCategory = $_POST['idCategory'];
         $product->save();
         return view('admin.product.add',compact('product','category'));
@@ -51,7 +53,11 @@ class ProductController extends Controller
 
     public function getDelete($id){
         $product = Product::find($id);
-        $product->delete();
-        return redirect('admin/product/list');
+        if ($product != null) {
+            $product->delete();
+            return redirect('admin/product/list');
+        }else{
+            return redirect()->back();
+        }
     }
 }

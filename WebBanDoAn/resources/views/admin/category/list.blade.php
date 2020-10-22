@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 <div class="content-page">
@@ -44,7 +44,7 @@
                                                     <a href="javacript:" hidden onclick="CancelEditItem({{ $item->id }})" id="btnCancel-{{ $item->id }}"><span class="ion ion-md-close"></span></a>
                                                 @endcan
                                                 @can('delete', 'App\Category')
-                                                <a href="admin/user/delete/{{ $item->id }}" id="btnDelete-{{ $item->id }}"><span class="ion ion-md-trash"></span></a></td>
+                                                <a href="admin/category/delete/{{ $item->id }}" id="btnDelete-{{ $item->id }}"><span class="ion ion-md-trash"></span></a></td>
                                                 @endcan
                                             </tr>
                                         @endforeach
@@ -125,12 +125,11 @@
     }
 
     $('#addItem').click(function () {
-        $('table tbody').append('<tr id="add"> <td><input class="form-control form-control-plaintext" name="name" id="name" type="text" value="" placeholder="Hãy nhập thông tin" ></td> <td><input  class="form-control form-control-plaintext" name="image" id="image" type="text" value="" placeholder="Hãy nhập thông tin"></td> <td><input  class="form-control form-control-plaintext" name="created_at" id="created_at" type="text" value="" placeholder="Hãy nhập thông tin"></td> <td><input  class="form-control form-control-plaintext" name="updated_at" id="updated_at" type="text" value="" placeholder="Hãy nhập thông tin"></td> <td><a href="javacript:" id="btnSave"><span class="ion ion-md-save"></span></a></td> <td><a href="javascipt:" onclick="btnCancel()"><span class="ion ion-md-close"></span></a></td> </tr>');
+        $('table tbody').append('<tr id="add"> <td><input class="form-control form-control-plaintext" name="name" id="name" type="text" value="" placeholder="Hãy nhập thông tin" ></td> <td><input  class="form-control form-control-plaintext" name="image" id="image" type="text" value="" placeholder="Hãy nhập thông tin"></td> <td><input  class="form-control form-control-plaintext" name="created_at" id="created_at" type="text" value="" placeholder="Hãy nhập thông tin"></td> <td><input  class="form-control form-control-plaintext" name="updated_at" id="updated_at" type="text" value="" placeholder="Hãy nhập thông tin"></td> <td><a href="javacript:" onclick="btnSave()" id="btnSave"><span class="ion ion-md-save mr-4"></span></a><a href="javascipt:" onclick="btnCancel()"><span class="ion ion-md-close"></span></a></td> </tr>');
         $('#addItem').attr('hidden',"");
     })
 
-    $('#addItem').delegate('#btnSave','click', function(){
-      // Content Code
+    function btnSave(){
         name = $('#name').val();
         image = $('#image').val();
         created_at = $('#created_at').val();
@@ -149,12 +148,11 @@
             success: function (response) {
                 $('#add').empty;
                 $('#add').html(response);
-                location.reload();
                 $('#addItem').removeAttr('hidden');
                 alert('ok');
             }
         });
-    });
+    }
 
     function btnCancel() {
         $( "tr" ).remove( "#add" );

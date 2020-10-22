@@ -42,7 +42,7 @@ class CategoryController extends Controller
     }
 
     public function getDelete($id){
-        $this->authorize('update', 'App\Category');
+        $this->authorize('delete', 'App\Category');
         $category = Category::find($id);
         $category->delete();
         return redirect('admin/category/list');

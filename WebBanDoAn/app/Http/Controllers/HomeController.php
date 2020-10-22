@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Product;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
+
+use function GuzzleHttp\Promise\all;
 
 class HomeController extends Controller
 {
 
+
     public function index()
     {
-        return view('home');
+
+        // $product = Product::all();
+        $product = DB::table('products')->paginate(8);
+        return view('pages.home',compact('product'));
     }
 
     public function getLogin()
@@ -33,7 +42,7 @@ class HomeController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password],$request->remember)) {
-            return redirect('/');
+            return redirect('home');
         }
         else{
             return redirect()->back()->with('warning','Đăng nhập thất bại!!!');
@@ -100,5 +109,17 @@ class HomeController extends Controller
         }
         return redirect('home');
     }
+
+    public function getProductDetail($id)
+    {
+        $product = Product::find($id);
+        return view('pages.detail',compact('product'));
+    }
+
+    public function getProfile(){
+        $user = Auth::user();
+        return view('pages.profile',compact('user'));
+    }
+
 
 }

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 <div class="content-page">
@@ -29,7 +29,8 @@
                                             <th>Name</th>
                                             <th>Image</th>
                                             <th>Content</th>
-                                            <th>Price</th>
+                                            <th>Purchase price </th>
+                                            <th>Sale price </th>
                                             <th>Category</th>
                                             <th></th>
                                         </tr>
@@ -40,7 +41,8 @@
                                                 <td><input disabled class="form-control form-control-plaintext"  name="name" id="name-{{ $item->id }}" type="text" value="{{ $item->name }}"></td>
                                                 <td><input disabled class="form-control form-control-plaintext" name="image" id="image-{{ $item->id }}" type="text" value="{{ $item->image }}"></td>
                                                 <td><input disabled class="form-control form-control-plaintext" name="content" id="content-{{ $item->id }}" type="text" value="{{ $item->content }}"></td>
-                                                <td><input disabled class="form-control form-control-plaintext" name="price" id="price-{{ $item->id }}" type="text" value="{{ $item->price }}"></td>
+                                                <td><input disabled class="form-control form-control-plaintext" name="p-price" id="p-price-{{ $item->id }}" type="text" value="{{ number_format($item->purchase_price) }}"></td>
+                                                <td><input disabled class="form-control form-control-plaintext" name="s-price" id="s-price-{{ $item->id }}" type="text" value="{{ number_format($item->sale_price) }}"></td>
                                                 <td><select name="idCategory" id="idCategory-{{ $item->id }}" class="form-control form-control-plaintext">
                                                     @foreach ($category as $cat)
                                                         @if ($cat->id == $item->idCategory)
@@ -56,7 +58,7 @@
                                                     <a href="javacript:" hidden onclick="CancelEditItem({{ $item->id }})" id="btnCancel-{{ $item->id }}"><span class="ion ion-md-close"></span></a>
                                                 @endcan
                                                 @can('delete', 'App\Product')
-                                                    <a href="admin/user/delete/{{ $item->id }}" id="btnDelete-{{ $item->id }}"><span class="ion ion-md-trash"></span></a></td>
+                                                    <a href="admin/product/delete/{{ $item->id }}" id="btnDelete-{{ $item->id }}"><span class="ion ion-md-trash"></span></a></td>
                                                 @endcan
                                             </tr>
                                         @endforeach
@@ -89,7 +91,8 @@
         $('#name-'+id).removeAttr('disabled');
         $('#image-'+id).removeAttr('disabled');
         $('#content-'+id).removeAttr('disabled');
-        $('#price-'+id).removeAttr('disabled');
+        $('#p-price-'+id).removeAttr('disabled');
+        $('#s-price-'+id).removeAttr('disabled');
         $('#idCategory-'+id).removeAttr('disabled');
     }
 
@@ -101,7 +104,8 @@
         $('#name-'+id).attr('disabled','');
         $('#image-'+id).attr('disabled','');
         $('#content-'+id).attr('disabled','');
-        $('#price-'+id).attr('disabled','');
+        $('#p-price-'+id).attr('disabled','');
+        $('#s-price-'+id).attr('disabled','');
         $('#idCategory-'+id).attr('disabled','');
 
         $.ajax({
@@ -118,7 +122,8 @@
         name = $('#name-'+id).val();
         image = $('#image-'+id).val();
         content = $('#content-'+id).val();
-        price = $('#price-'+id).val();
+        pprice = $('#p-price-'+id).val();
+        sprice = $('#s-price-'+id).val();
         idCategory = $("#idCategory-"+id).val();
 
         $.ajax({
@@ -128,7 +133,8 @@
                 name: name,
                 image: image,
                 content: content,
-                price: price,
+                pprice: pprice,
+                sprice: sprice,
                 idCategory: idCategory,
                 _token: '{{csrf_token()}}',
             },
@@ -144,7 +150,7 @@
     }
 
     $('#addItem').click(function () {
-        $('table tbody').append('<tr id="add"> <td><input class="form-control form-control-plaintext" name="name" id="name" type="text" placeholder="Hãy nhập thông tin"></td> <td><input class="form-control form-control-plaintext" name="image" id="image" type="text" placeholder="Hãy nhập thông tin"></td> <td><input class="form-control form-control-plaintext" name="content" id="content" type="text" placeholder="Hãy nhập thông tin"></td> <td><input class="form-control form-control-plaintext" name="price" id="price" type="text" placeholder="Hãy nhập thông tin"></td> <td><select name="idCategory" id="idCategory" class="form-control form-control-plaintext"> @foreach ($category as $cat) <option value="{{ $cat->id }}">{{ $cat->name }}</option> @endforeach </select></td> <td><a href="javacript:" onclick="btnSave()" ><span class="ion ion-md-save"></span></a></td> <td><a href="javacript:" onclick="btnCancel()"><span class="ion ion-md-close"></span></a></td> </tr>');
+        $('table tbody').append('<tr id="add"> <td><input class="form-control form-control-plaintext" name="name" id="name" type="text" placeholder="Hãy nhập thông tin"></td> <td><input class="form-control form-control-plaintext" name="image" id="image" type="text" placeholder="Hãy nhập thông tin"></td> <td><input class="form-control form-control-plaintext" name="content" id="content" type="text" placeholder="Hãy nhập thông tin"></td> <td><input class="form-control form-control-plaintext" name="p-price" id="p-price" type="text" placeholder="Hãy nhập thông tin"></td><td><input class="form-control form-control-plaintext" name="s-price" id="s-price" type="text" placeholder="Hãy nhập thông tin"></td> <td><select name="idCategory" id="idCategory" class="form-control form-control-plaintext"> @foreach ($category as $cat) <option value="{{ $cat->id }}">{{ $cat->name }}</option> @endforeach </select></td> <td><a href="javacript:" onclick="btnSave()" ><span class="ion ion-md-save mr-4"></span></a><a href="javacript:" onclick="btnCancel()"><span class="ion ion-md-close"></span></a></td> </tr>');
         $('#addItem').attr('hidden',"");
     })
 
@@ -153,7 +159,8 @@
         name = $('#name').val();
         image= $('#image').val();
         content= $('#content').val();
-        price= $('#price').val();
+        pprice = $('#p-price').val();
+        sprice = $('#s-price').val();
         idCategory= $('#idCategory').val();
 
         $.ajax({
@@ -163,7 +170,8 @@
                 name: name,
                 image: image,
                 content: content,
-                price: price,
+                pprice: pprice,
+                sprice: sprice,
                 idCategory: idCategory,
                 _token: '{{csrf_token()}}',
             },

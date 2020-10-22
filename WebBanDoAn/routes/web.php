@@ -15,13 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.home');
-});
+Route::get('/','HomeController@index' );
 
-Route::get('home', function () {
-    return view('pages.home');
-});
+Route::get('home','HomeController@index' );
 
 view()->composer('*', function ($view) {
     if (Auth::check()) {
@@ -40,8 +36,22 @@ Route::get('loginwithgoogle/callback', 'HomeController@getLoginWithGoogleCallBac
 Route::get('register', 'HomeController@getRegister');
 Route::post('register', 'HomeController@postRegister');
 
+Route::get('product-detail/{id}', 'HomeController@getProductDetail');
+
+Route::get('add-cart/{id}', 'CartController@addCart')->name('cart.add');
+Route::get('edit-cart-minus/{id}', 'CartController@editCartMinus');
+Route::get('edit-cart-plus/{id}', 'CartController@editCartPlus');
+Route::get('edit-cart-quanty/{id}/{sl}', 'CartController@editCartInput');
+Route::get('delete-item-cart/{id}', 'CartController@removeItemCart');
+Route::get('get-cart', 'CartController@getCart');
+
+Route::get('profile', 'HomeController@getProfile');
 
 Route::group(['prefix' => 'admin','middleware' => 'adminlogin'], function () {
+
+    Route::get('home', function () {
+        return view('admin.home');
+    });
 
     Route::group(['prefix' => 'category'], function () {
         Route::get('list', 'CategoryController@list');
@@ -67,7 +77,7 @@ Route::group(['prefix' => 'admin','middleware' => 'adminlogin'], function () {
         Route::get('delete/{id}', 'UserController@getDelete');
     });
 
-    Route::group(['prefix' => 'role'], function () {
+    Route::group(['prefix' => 'role', 'middleware'=>'permission'], function () {
         Route::get('list', 'UserController@listRole');
         Route::get('add/{id}', 'UserController@addRole');
         Route::post('add/{id}', 'UserController@postAddRole');

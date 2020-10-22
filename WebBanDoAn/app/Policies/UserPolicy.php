@@ -19,7 +19,6 @@ class UserPolicy
     public function before(User $user){
         $listIdRoleOfUser = DB::table('role_user')->where('user_id',Auth::user()->id)->get()->pluck('role_id');
         $listRoleOfUser = DB::table('roles')->whereIn('id', $listIdRoleOfUser)->get()->pluck('name');
-        // dd($listRoleOfUser[0]  == 'user-view');
         if ($listRoleOfUser->contains('superadmin')) {
             return true;
         }
@@ -28,7 +27,7 @@ class UserPolicy
     public function view(User $user){
         $listIdRoleOfUser = DB::table('role_user')->where('user_id',Auth::user()->id)->get()->pluck('role_id');
         $listRoleOfUser = DB::table('roles')->whereIn('id', $listIdRoleOfUser)->get()->pluck('name');
-        return $listRoleOfUser->contains('user-update');
+        return $listRoleOfUser->contains('user-view');
     }
 
     public function update(User $user){

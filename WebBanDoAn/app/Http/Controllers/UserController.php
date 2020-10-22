@@ -47,11 +47,13 @@ class UserController extends Controller
     }
 
     public function listRole(){
+        // $this->authorize('App\Role');
         $user = User::all();
         return view('admin.user.role',compact('user'));
     }
 
     public function addRole($id){
+        // $this->authorize('App\Role');
         $user = User::find($id);
         $role = Role::all();
         $roleOfUser = DB::table('role_user')->where('user_id',$id)->pluck('role_id');
@@ -59,6 +61,7 @@ class UserController extends Controller
     }
 
     public function postAddRole($id, Request $request){
+        // $this->authorize('App\Role');
         $user = User::find($id);
         DB::table('role_user')->where('user_id',$id)->delete();
         $user->roles()->attach($request->role);
